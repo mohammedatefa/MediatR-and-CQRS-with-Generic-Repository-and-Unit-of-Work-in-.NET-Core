@@ -2,7 +2,7 @@
 using CQRS_MediatR.Repository;
 using System.Collections;
 
-namespace CQRS_MediatR.Utilities
+namespace CQRS_MediatR.Utilities.UOW
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -19,8 +19,8 @@ namespace CQRS_MediatR.Utilities
             var type = typeof(T).Name;
             if (!Repositories.ContainsKey(type))
             {
-                var repo =new GenericRepository<T>(_newsPaperContext);
-                Repositories.Add(type,repo);
+                var repo = new GenericRepository<T>(_newsPaperContext);
+                Repositories.Add(type, repo);
             }
             return Repositories[type] as IGenericRepository<T>;
         }

@@ -1,7 +1,7 @@
 
 using CQRS_MediatR.Context;
 using CQRS_MediatR.Repository;
-using CQRS_MediatR.Utilities;
+using CQRS_MediatR.Utilities.UOW;
 using Microsoft.EntityFrameworkCore;
 
 namespace CQRS_MediatR
@@ -29,6 +29,13 @@ namespace CQRS_MediatR
             builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+            //Inject AutoMapper
+            builder.Services.AddAutoMapper(typeof(Program));
+
+            //Inject MediatoR
+            builder.Services.AddMediatR(
+                config =>
+                config.RegisterServicesFromAssemblies(typeof(Program).Assembly));
 
             var app = builder.Build();
 
