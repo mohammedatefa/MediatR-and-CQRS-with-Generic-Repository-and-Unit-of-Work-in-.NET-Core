@@ -1,15 +1,9 @@
-﻿using AutoMapper;
-using Azure.Core;
-using CQRS_MediatR.Commands.NewComands;
+﻿using CQRS_MediatR.Commands.NewComands;
 using CQRS_MediatR.Commands.NewCommands;
 using CQRS_MediatR.Controllers.New.Request;
-using CQRS_MediatR.Models;
 using CQRS_MediatR.Queries.NewsQueries;
-using CQRS_MediatR.Repository;
-using CQRS_MediatR.Utilities.UOW;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
 
 namespace CQRS_MediatR.Controllers.New
 {

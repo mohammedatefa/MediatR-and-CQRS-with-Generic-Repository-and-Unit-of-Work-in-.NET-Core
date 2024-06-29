@@ -12,5 +12,8 @@ namespace CQRS_MediatR.Controllers.New.Request
 
         [Required(ErrorMessage = "this Category is required !!")]
         public string? Category { get; set; }
+
+        [Required(ErrorMessage = "the creator is required !!")]
+        public int ArticleCreaterId { get; set; }
     }
 }

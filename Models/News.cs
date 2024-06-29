@@ -13,5 +13,8 @@ namespace CQRS_MediatR.Models
 
         [Required(ErrorMessage = "this Category is required !!")]
         public string? Category { get; set; }
+
+        public int ArticleCreaterId { get; set; }
+        public ArticleCreater ArticleCreater { get; set; }
     }
 }

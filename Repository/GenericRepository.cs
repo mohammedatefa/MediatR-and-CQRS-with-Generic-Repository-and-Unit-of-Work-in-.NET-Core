@@ -13,14 +13,27 @@ namespace CQRS_MediatR.Repository
             this._dbset = context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync(string includeProperties="")
         {
-            return await _dbset.ToListAsync();
+            var query = _dbset.AsQueryable();
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            return await query.ToListAsync();
         }
 
-        public  async Task<T> GetByIdAsync(int Id)
+        public  async Task<T> GetByIdAsync(object Id, string includeProperties = "")
         {
-            return await _dbset.FindAsync(Id);
+            IQueryable<T> query = _dbset.AsQueryable();
+
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            return await query.FirstOrDefaultAsync(e => EF.Property<object>(e, "Id").Equals(Id));
         }
         public async Task AddAsync(T entity)
         {
