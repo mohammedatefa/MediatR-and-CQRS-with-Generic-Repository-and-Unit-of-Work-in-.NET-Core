@@ -1,4 +1,5 @@
 using CQRS_MediatR.Context;
+using CQRS_MediatR.Exceptions;
 using CQRS_MediatR.Repository;
 using CQRS_MediatR.Utilities.UOW;
 using CQRS_MediatR.Utilities.Validators;
@@ -42,6 +43,9 @@ namespace CQRS_MediatR
             //Inject FluentValidators
             builder.Services.AddValidatorsFromAssemblyContaining<ArticleCreatorValidator>();
 
+            //Handling Exception
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
 
             var app = builder.Build();
 
@@ -56,6 +60,7 @@ namespace CQRS_MediatR
 
             app.UseAuthorization();
 
+            app.UseExceptionHandler();
 
             app.MapControllers();
 

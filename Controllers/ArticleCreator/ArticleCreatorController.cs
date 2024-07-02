@@ -5,6 +5,7 @@ using CQRS_MediatR.Queries.ArticleCreatorQueries;
 using CQRS_MediatR.Utilities.Validators;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CQRS_MediatR.Controllers.ArticleCreator
 {
@@ -54,14 +55,7 @@ namespace CQRS_MediatR.Controllers.ArticleCreator
         [Route("AddArticleCreator")]
         public async Task<IActionResult> Add([FromQuery] CreateOrUpdateCreatorRequest request)
         {
-            var Validator = new ArticleCreatorValidator();
-            var validationResualt = Validator.Validate(request);
-
-            if (!validationResualt.IsValid)
-            {
-                return BadRequest(validationResualt.ToDictionary());
-            }
-
+            
             var command = new AddArticleCreatorRequest(request);
             var resualt = await _mediator.Send(command);
             return Ok(new
