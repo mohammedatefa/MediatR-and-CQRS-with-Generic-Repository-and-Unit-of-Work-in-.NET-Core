@@ -1,8 +1,10 @@
-
 using CQRS_MediatR.Context;
 using CQRS_MediatR.Repository;
 using CQRS_MediatR.Utilities.UOW;
+using CQRS_MediatR.Utilities.Validators;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace CQRS_MediatR
 {
@@ -36,6 +38,10 @@ namespace CQRS_MediatR
             builder.Services.AddMediatR(
                 config =>
                 config.RegisterServicesFromAssemblies(typeof(Program).Assembly));
+
+            //Inject FluentValidators
+            builder.Services.AddValidatorsFromAssemblyContaining<ArticleCreatorValidator>();
+
 
             var app = builder.Build();
 
