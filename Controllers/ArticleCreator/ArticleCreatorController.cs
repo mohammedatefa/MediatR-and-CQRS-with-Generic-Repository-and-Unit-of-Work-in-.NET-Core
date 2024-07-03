@@ -11,16 +11,9 @@ namespace CQRS_MediatR.Controllers.ArticleCreator
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ArticleCreatorController : ControllerBase
+    public class ArticleCreatorController(IMediator mediator, ILogger<ArticleCreatorController> logger) : ControllerBase
     {
-        private readonly IMediator _mediator;
-        private readonly ILogger<ArticleCreatorController> _logger;
 
-        public ArticleCreatorController(IMediator mediator,ILogger<ArticleCreatorController> logger)
-        {
-            _mediator = mediator;
-            _logger = logger;
-        }
 
         #region Queries 
         [HttpGet]
@@ -28,7 +21,7 @@ namespace CQRS_MediatR.Controllers.ArticleCreator
         public async Task<IActionResult> GetArticleCreator(int Id)
         {
             var query = new GetArticleCreatorInfoRequest(Id);
-            var resualt = await _mediator.Send(query);
+            var resualt = await mediator.Send(query);
             return Ok(new
             {
                 Message = "Get Article Creator Info Succeeded",
@@ -41,7 +34,7 @@ namespace CQRS_MediatR.Controllers.ArticleCreator
         public async Task<IActionResult> GetAll()
         {
             var query = new GetAllArticleCreatorsRequest();
-            var resualt = await _mediator.Send(query);
+            var resualt = await mediator.Send(query);
             return Ok(new
             {
                 Message = "Get All Article Creator Info Succeeded",
@@ -57,7 +50,7 @@ namespace CQRS_MediatR.Controllers.ArticleCreator
         {
             
             var command = new AddArticleCreatorRequest(request);
-            var resualt = await _mediator.Send(command);
+            var resualt = await mediator.Send(command);
             return Ok(new
             {
                 Message = "Add New Article_Creator Succeeded",
@@ -68,16 +61,9 @@ namespace CQRS_MediatR.Controllers.ArticleCreator
         [Route("UpdateArticleCreator")]
         public async Task<IActionResult> Update(int Id, [FromQuery] CreateOrUpdateCreatorRequest request)
         {
-            var Validator = new ArticleCreatorValidator();
-            var validationResualt = Validator.Validate(request);
-
-            if (!validationResualt.IsValid)
-            {
-                return BadRequest(validationResualt.ToDictionary());
-            }
 
             var command = new UpdateArticleCreatorRequest(Id, request);
-            var resualt = await _mediator.Send(command);
+            var resualt = await mediator.Send(command);
             return Ok(new
             {
                 Message = "Update Article_Creator Succeeded",
@@ -90,7 +76,7 @@ namespace CQRS_MediatR.Controllers.ArticleCreator
         public async Task<IActionResult> Delete(int Id)
         {
             var command = new DeleteArticleCreatorRequest(Id);
-            await _mediator.Send(command);
+            await mediator.Send(command);
             return Ok(new
             {
                 Message = "Delete Article_Creator Succeeded",

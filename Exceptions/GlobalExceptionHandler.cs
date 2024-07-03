@@ -21,7 +21,6 @@ namespace CQRS_MediatR.Exceptions
                 }
                 problemDetails.Extensions.Add("errors", validationErrors);
             }
-
             else
             {
                 problemDetails.Title = exception.Message;

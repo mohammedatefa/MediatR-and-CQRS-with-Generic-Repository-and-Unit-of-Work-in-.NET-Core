@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CQRS_MediatR.Controllers.New.Response;
+using CQRS_MediatR.Exceptions;
 using CQRS_MediatR.Models;
 using CQRS_MediatR.Queries.NewsQueries;
 using CQRS_MediatR.Utilities.UOW;
@@ -14,7 +15,7 @@ namespace CQRS_MediatR.Handlers.NewsHandler
         }
         public async Task<IEnumerable<NewsInfoResponse>> Handle(GetAllNewsQuery request, CancellationToken cancellationToken)
         {
-            var News = await _repository.GetAllAsync("ArticleCreater");
+            var News = await _repository.GetAllAsync("ArticleCreater")??throw new NotFoundException($"There Is Not News Founded ");
            
             return _mapper.Map<IEnumerable<NewsInfoResponse>>(News);
         }
